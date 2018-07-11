@@ -23,6 +23,7 @@ namespace MetalBot
             _commands = new CommandService();
             _service = new ServiceCollection().AddSingleton(_client).AddSingleton(_commands).BuildServiceProvider();
             //old token, no longer valid. Need a better way to manage this with source code being on github
+            //TODO read in bot token from external file? Dirty but would work
             String BotToken = "NDY2Mjk4ODczMDg2NzM4NDMz.DiaDZg.lcyoY29EW5_feuRL7xHgV-ZVcbM";
 
             //event subscriptions
