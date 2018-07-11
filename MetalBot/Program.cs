@@ -22,9 +22,11 @@ namespace MetalBot
             _client = new DiscordSocketClient();
             _commands = new CommandService();
             _service = new ServiceCollection().AddSingleton(_client).AddSingleton(_commands).BuildServiceProvider();
-            //old token, no longer valid. Need a better way to manage this with source code being on github
-            //TODO read in bot token from external file? Dirty but would work
-            String BotToken = "NDY2Mjk4ODczMDg2NzM4NDMz.DiaDZg.lcyoY29EW5_feuRL7xHgV-ZVcbM";
+           
+
+            //Config.BotSetup is not on github to protect the bot token
+            Config.BotSetup getToken = new Config.BotSetup();
+            String BotToken = getToken.GetBotToken();
 
             //event subscriptions
             _client.Log += Log;
