@@ -11,22 +11,22 @@ namespace MetalBot
     class Program
     {
         static void Main(string[] args) => new Program().RunBotAsync().GetAwaiter().GetResult();
-       
+
         private DiscordSocketClient _client;
         private CommandService _commands;
         private IServiceProvider _service;
-        
+
 
         public async Task RunBotAsync()
         {
             _client = new DiscordSocketClient();
             _commands = new CommandService();
             _service = new ServiceCollection().AddSingleton(_client).AddSingleton(_commands).BuildServiceProvider();
-           
+
 
             //Config.BotSetup is not on github to protect the bot token
             Config.BotSetup getToken = new Config.BotSetup();
-            String BotToken = getToken.GetBotToken();
+            String BotToken = getToken.Token;
 
             //event subscriptions
             _client.Log += Log;
@@ -44,13 +44,31 @@ namespace MetalBot
 
         private async Task AnnounceUserJoined(SocketGuildUser user)
         {
-            EmbedBuilder builder = new EmbedBuilder();
-            builder.AddField("Welcome!", $"Welcome to the NixxyPlays discord {user.Mention}");
-            builder.AddInlineField("Rules", "Please take a look at the rules in #rules");
-            builder.AddInlineField("Questions?", "Feel free to message a mod or the admin if you have any questions");
             var guild = user.Guild;
+            // following while statement cycles through roles to find the mod role
+            var RoleCollection = guild.Roles.GetEnumerator();
+            var TargetRole = RoleCollection.Current;
+         
+            foreach (var R in guild.Roles)
+            {
+                Console.WriteLine(R);
+                if (R.Permissions.DeafenMembers && !R.Permissions.Administrator && R.Permissions.ManageNicknames)
+                {
+                    TargetRole = R;
+                    break;
+                }
+
+            }
+         
+            //builder creates the welcome message, mentioning the user and letting them know who the mods are
+            //may want to also mention the admin 
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.AddField("Welcome!", $"Welcome to the {guild.Name} discord {user.Mention}")
+            .AddInlineField("Rules", "Please take a look at the rules in #rules")
+            .AddInlineField("Questions?", $"Feel free to message one of the {TargetRole.Mention} if you have any questions")
+            .AddInlineField("Most importantly", "we hope you enjoy your time here :nixLuv:");
+           
             var channel = guild.DefaultChannel;
-          //  guild.
             await channel.SendMessageAsync($"Welcome {user.Mention}", false, builder);
         }
 
@@ -79,7 +97,7 @@ namespace MetalBot
             {
                 var context = new SocketCommandContext(_client, message);
 
-               var result = await _commands.ExecuteAsync(context, argPos, _service);
+                var result = await _commands.ExecuteAsync(context, argPos, _service);
 
                 if (!result.IsSuccess)
                 {
