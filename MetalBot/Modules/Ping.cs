@@ -21,6 +21,15 @@ namespace MetalBot.Modules
             await ReplyAsync("on rock and roll");
         }
 
+        [Command("emote")]
+        public async Task TestEmote()
+        {
+            await ReplyAsync("<:nixxypLuv:428572226447474688>");
+            
+
+
+        }
+
         //test command for finding specific roles
         [Command("loop")]
         public async Task TestWelcome()

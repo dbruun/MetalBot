@@ -48,25 +48,23 @@ namespace MetalBot
             // following while statement cycles through roles to find the mod role
             var RoleCollection = guild.Roles.GetEnumerator();
             var TargetRole = RoleCollection.Current;
-         
             foreach (var R in guild.Roles)
             {
-                Console.WriteLine(R);
                 if (R.Permissions.DeafenMembers && !R.Permissions.Administrator && R.Permissions.ManageNicknames)
                 {
                     TargetRole = R;
                     break;
                 }
-
             }
-         
+
             //builder creates the welcome message, mentioning the user and letting them know who the mods are
             //may want to also mention the admin 
+         
             EmbedBuilder builder = new EmbedBuilder();
             builder.AddField("Welcome!", $"Welcome to the {guild.Name} discord {user.Mention}")
-            .AddInlineField("Rules", "Please take a look at the rules in #rules")
+            .AddInlineField("Rules", "Please take a look at the rules in #da-rulez")
             .AddInlineField("Questions?", $"Feel free to message one of the {TargetRole.Mention} if you have any questions")
-            .AddInlineField("Most importantly", "we hope you enjoy your time here :nixLuv:");
+            .AddInlineField("Most importantly", $"We hope you enjoy your time here :heart:");
            
             var channel = guild.DefaultChannel;
             await channel.SendMessageAsync($"Welcome {user.Mention}", false, builder);
