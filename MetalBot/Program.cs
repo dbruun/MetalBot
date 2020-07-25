@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace MetalBot
 {
@@ -25,8 +26,7 @@ namespace MetalBot
 
 
             //Config.BotSetup is not on github to protect the bot token
-            Config.BotSetup getToken = new Config.BotSetup();
-            String BotToken = getToken.Token;
+            string botToken= ConfigurationManager.AppSettings["botToken"];
 
             //event subscriptions
             _client.Log += Log;
@@ -35,7 +35,7 @@ namespace MetalBot
 
             await RegisterCommandsAsync();
 
-            await _client.LoginAsync(TokenType.Bot, BotToken);
+            await _client.LoginAsync(TokenType.Bot, botToken);
 
             await _client.StartAsync();
 

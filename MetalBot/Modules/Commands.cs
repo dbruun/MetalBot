@@ -1,12 +1,13 @@
 ﻿using Discord.Commands;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MetalBot.Modules
 {
-    public class Ping : ModuleBase<SocketCommandContext>
+    public class Commands : ModuleBase<SocketCommandContext>
     {
         //test commands, learning
         [Command("ping")]
@@ -24,11 +25,21 @@ namespace MetalBot.Modules
         [Command("emote")]
         public async Task TestEmote()
         {
-            await ReplyAsync("<:nixxypLuv:428572226447474688>");
-            
+            await ReplyAsync("<:nixxypLuv:428572226447474688>");         
 
 
         }
+
+        [Command("echo")]
+        public async Task TestInputConsumption(params string[] input)
+        {
+
+            var toReturn = string.Join(' ', input);
+            await ReplyAsync(toReturn);
+
+        }
+
+
 
         //test command for finding specific roles
         [Command("loop")]
