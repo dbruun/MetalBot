@@ -39,6 +39,34 @@ namespace MetalBot.Modules
 
         }
 
+        [Command("todo")]
+        public async Task GetUserToDo(params string[] input)
+        {
+
+            var toReturn = string.Join(' ', input);
+            await ReplyAsync(toReturn);
+
+        }
+
+        [Command("add")]
+        public async Task AddToToDo(params string[] input)
+        {
+        
+            var toReturn = string.Join(' ', input);
+            await ReplyAsync(toReturn);
+
+        }
+
+        [Command("callingUser")]
+        public async Task test()
+        {
+            var user = Context.Guild.GetUser(Context.User.Id);         
+            await ReplyAsync($"Useername : {user.Username}, Nickname : {user.Nickname}");
+        }
+
+
+
+
 
 
         //test command for finding specific roles
