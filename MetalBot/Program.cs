@@ -6,6 +6,8 @@ using System;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Hosting;
 
 namespace MetalBot
 {
@@ -17,6 +19,13 @@ namespace MetalBot
         private CommandService _commands;
         private IServiceProvider _service;
 
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            });
 
         public async Task RunBotAsync()
         {

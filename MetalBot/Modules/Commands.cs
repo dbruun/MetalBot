@@ -51,6 +51,7 @@ namespace MetalBot.Modules
         [Command("add")]
         public async Task AddToToDo(params string[] input)
         {
+            
         
             var toReturn = string.Join(' ', input);
             await ReplyAsync(toReturn);
@@ -63,6 +64,8 @@ namespace MetalBot.Modules
             var user = Context.Guild.GetUser(Context.User.Id);         
             await ReplyAsync($"Useername : {user.Username}, Nickname : {user.Nickname}");
         }
+
+        
 
 
 
